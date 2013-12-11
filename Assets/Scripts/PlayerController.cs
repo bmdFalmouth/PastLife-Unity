@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//http://indiehoodgames.wordpress.com/2013/07/27/pixel-perfect-calculator-for-orthographic-camera-unity3d/
+
 public class PlayerController : MonoBehaviour {
 
 	public float speed=1.0f;
