@@ -66,12 +66,12 @@ public class Level : MonoBehaviour {
 
 		Vector2 startPosition=new Vector2(0.0f,0.0f);
 		//this.transform.position=startPosition;
-		float yOffset=tilePrefab.transform.lossyScale.y;
+		float yOffset=pixelsToUnits;
 		foreach(MultiDimensionalArray<int> t in mapTiles)
 		{
 			foreach(int i in t.array)
 			{
-				startPosition.x+=tilePrefab.transform.lossyScale.x;
+				startPosition.x+=pixelsToUnits;
 				if (i!=0){
 
 					GameObject go=(GameObject)Instantiate(tilePrefab);

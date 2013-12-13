@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//http://indiehoodgames.wordpress.com/2013/07/27/pixel-perfect-calculator-for-orthographic-camera-unity3d/
+
 
 public class PlayerController : MonoBehaviour {
 
 	public float speed=1.0f;
+	public float jumpSpeed=2000.0f;
 	Animator anim;
+	bool ground=false;
 	// Use this for initialization
 	void Start () {
 		anim=GetComponent<Animator>();
@@ -16,7 +18,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		anim.SetFloat("speed",Mathf.Abs(Input.GetAxisRaw("Horizontal")));
 
-
+		if (ground){
 		if (Input.GetAxisRaw("Horizontal")>0)
 		{
 			transform.eulerAngles=new Vector2(0.0f,0.0f);
@@ -31,7 +33,8 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Jump"))
 		{
 			anim.SetBool("jump",true);
-			rigidbody2D.AddForce(new Vector2(0.0f,200.0f));
+			rigidbody2D.AddForce(new Vector2(0.0f,jumpSpeed));
+		}
 		}
 	}
 
@@ -39,6 +42,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (col.gameObject.tag=="ground")
 		{
+			ground=true;
 			anim.SetBool("jump",false);
 		}
 	}
