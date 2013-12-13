@@ -31,37 +31,67 @@ public class Level : MonoBehaviour {
 
 	public List<Sprite> tiles;
 
-	public int LevelWidth=32;
-	public int LevelHeight=32;
-
 	public TileMap[] mapTiles;
 	public int pixelsToUnits=32;
 
 	public GameObject tilePrefab;
 
-	// Use this for initialization
-	void Start () {
-		Vector2 startPosition=new Vector2((-Screen.width/2f)/pixelsToUnits,(Screen.height/2f)/pixelsToUnits);
-		float yOffset=0.0f;
+	public void loadCSV(string filename)
+	{
+		if (System.IO.File.Exists(filename)){
+			string[] levelText=System.IO.File.ReadAllLines(filename);
+			mapTiles=new TileMap[levelText.Length];
+			for(int row=0;row<levelText.Length;++row)
+			{
+				Debug.Log(row);
+				string[] tileIDs=levelText[row].Split(',');
+				mapTiles[row]=new TileMap();
+				mapTiles[row].array=new int[tileIDs.Length];
+				for (int columns=0;columns<tileIDs.Length;++columns)
+				{
+					mapTiles[row].array[columns]=int.Parse(tileIDs[columns]);
+				}
+			}
+
+			populateMap();
+		}
+		else
+		{
+			Debug.Log("File dosen't exist");
+		}
+	}
+
+	public void populateMap()
+	{
+
+		Vector2 startPosition=new Vector2(0.0f,0.0f);
+		//this.transform.position=startPosition;
+		float yOffset=tilePrefab.transform.lossyScale.y;
 		foreach(MultiDimensionalArray<int> t in mapTiles)
 		{
 			foreach(int i in t.array)
 			{
-				GameObject go=(GameObject)Instantiate(tilePrefab);
-				SpriteRenderer sprite=go.renderer as SpriteRenderer;
-				sprite.sprite=tiles[i];
-				startPosition.x+=go.transform.lossyScale.x;
-				yOffset=go.transform.localScale.y;
-				go.transform.position=startPosition;
+				startPosition.x+=tilePrefab.transform.lossyScale.x;
+				if (i!=0){
 
-				if (i>0)
-				{
+					GameObject go=(GameObject)Instantiate(tilePrefab);
+					SpriteRenderer sprite=go.renderer as SpriteRenderer;
+					sprite.sprite=tiles[i];
+					go.transform.position=startPosition;
+					go.transform.parent=transform;
 					go.AddComponent(typeof(BoxCollider2D));
 				}
 			}
-			startPosition.x=(-Screen.width/2f)/pixelsToUnits;
+			startPosition.x=0.0f;
 			startPosition.y-=yOffset;
 		}
+
+		Vector3 pos=Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height,0.0f));
+		transform.position=new Vector3(pos.x*-1,pos.y/2);
+	}
+	// Use this for initialization
+	void Start () {
+		loadCSV(Application.dataPath+"/MapCSV_LevelZero_MainGame.txt");
 	}
 	
 	// Update is called once per frame
