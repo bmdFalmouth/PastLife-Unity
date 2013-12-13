@@ -19,22 +19,22 @@ public class PlayerController : MonoBehaviour {
 		anim.SetFloat("speed",Mathf.Abs(Input.GetAxisRaw("Horizontal")));
 
 		if (ground){
-		if (Input.GetAxisRaw("Horizontal")>0)
-		{
-			transform.eulerAngles=new Vector2(0.0f,0.0f);
-			transform.Translate(new Vector3(1.0f,0.0f,0.0f)*speed*Time.deltaTime);
-		}
-		else if(Input.GetAxisRaw("Horizontal")<0)
-		{
-			transform.eulerAngles=new Vector2(0.0f,180.0f);
-			transform.Translate(new Vector3(1.0f,0.0f,0.0f)*speed*Time.deltaTime);
-		}
+			if (Input.GetAxisRaw("Horizontal")>0)
+			{
+				transform.eulerAngles=new Vector2(0.0f,0.0f);
+				transform.Translate(new Vector3(1.0f,0.0f,0.0f)*speed*Time.deltaTime);
+			}
+			else if(Input.GetAxisRaw("Horizontal")<0)
+			{
+				transform.eulerAngles=new Vector2(0.0f,180.0f);
+				transform.Translate(new Vector3(1.0f,0.0f,0.0f)*speed*Time.deltaTime);
+			}
 
-		if (Input.GetButtonDown("Jump"))
-		{
-			anim.SetBool("jump",true);
-			rigidbody2D.AddForce(new Vector2(0.0f,jumpSpeed));
-		}
+			if (Input.GetButtonDown("Jump"))
+			{
+				anim.SetBool("jump",true);
+				rigidbody2D.AddForce(new Vector2(0.0f,jumpSpeed));
+			}
 		}
 	}
 
