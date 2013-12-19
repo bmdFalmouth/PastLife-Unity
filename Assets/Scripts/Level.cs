@@ -136,16 +136,7 @@ public class Level : MonoBehaviour {
 		Vector3 pos=Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height,0.0f));
 		transform.position=new Vector3(pos.x*-1,pos.y/2);
 	}
-
-	void OnPreRender()
-	{
-		GL.wireframe=true;
-	}
-
-	void OnPostRender()
-	{
-		GL.wireframe=false;
-	}
+	
 
 	// Use this for initialization
 	void Start () {
